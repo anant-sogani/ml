@@ -148,32 +148,3 @@ print(paste("Sample Size         =", N))
 print(paste("In-Sample Error     =", mean(Ein)))
 print(paste("Out-of-Sample Error =", mean(Eout)))
 print(paste("Iterations for SGD  =", mean(Iter)))
-
-paint = function () {
-    name = "logistic_regression.png"
-    png(name)
-
-    plot(0, 0, type="n", xlab="x1", ylab="x2",
-         main="Logistic Regression")
-
-    ch = 16; color = 3
-
-    for (i in 1:N) {
-        x = X[i, ]
-        y = Y[i]
-        points(x[2], x[3], pch=(ch + y), col=(color + y))
-    }
-
-    wfcolor   = "dark green"; wflty = 2
-    points(a[2], a[3], pch=13, col="yellow")
-    points(b[2], b[3], pch=13, col="yellow")
-    abline(a=(-wf[1]/wf[3]), b = (-wf[2]/wf[3]),
-           col=wfcolor, lty=wflty)
-
-    dev.off()
-    browseURL(name)
-}
-
-# Paint the results of the last Experiment.
-#paint()
-
