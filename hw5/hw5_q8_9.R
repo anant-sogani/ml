@@ -70,7 +70,7 @@ sgd = function () {
     # Initialize Weight.
     wt = rep(0, 3)
 
-    # Iteration Count.
+    # Epoch Count.
     t = 1
 
     while (1) {
