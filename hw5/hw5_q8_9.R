@@ -77,7 +77,7 @@ sgd = function () {
 
         w = wt
 
-        # Epoch: GD on training examples chosen in random order.
+        # Epoch: SGD on training examples chosen in random order.
         for (i in sample(1:N)) {
         
             x = X[i, ]
