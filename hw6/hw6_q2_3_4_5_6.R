@@ -30,8 +30,6 @@ Z = t(apply(X, 1, phi))
 # See the effects of varying Lambda.
 k = c(-Inf, -3, -2, -1, 0, 1, 2, 3)
 
-eout = Inf
-
 for (lambda in 10^k) {
 
     # Final Weights as per Linear Regression with Weight Decay.
