@@ -5,7 +5,7 @@ library(LowRankQP)
 # Number of Runs.
 R = 1000
 
-# Sample Size.
+# Sample Size. Change to N = 100 for q9-10.
 N = 10
 
 # Target Function: Weight Vector and defining Points.
