@@ -18,7 +18,7 @@ wgPLA = NA; gPLA = NA
 wgSVM = NA; gSVM = NA
 
 # Number of Out-of-Sample Test Points.
-T = 1000
+T = 10000
 
 #
 # Per Experiment: PLA
