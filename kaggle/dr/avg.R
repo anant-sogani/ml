@@ -28,4 +28,5 @@ for (d in 0:9) {
     I[h + 1:S, w + 1:S] = png
 }
 
+# Save PNG.
 writePNG(I, target = "avg.png")
