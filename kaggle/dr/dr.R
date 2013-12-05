@@ -1,13 +1,17 @@
 #!/usr/bin/env Rscript
 
-library(ggplot2)
+library(e1071)
+
+#################################################################
+#           I N P U T    P R O C E S S I N G                    #
+#################################################################
 
 # Square Image Size.
 S = 28
 
 # Raw Data.
 data = as.matrix(read.table("train.csv", header = TRUE, sep = ",",
-                            nrows = 42001,
+                            nrows = 1001,
                             colClasses = sapply(1:(1 + S^2), class)))
 # Feature Extraction.
 features = function (v) {
@@ -35,19 +39,56 @@ features = function (v) {
 X = t(apply(data[, -1], 1, features))
 Y = data[, 1]
 
-for (d in 0:9) {
-    name = paste(d, ".png", sep = "")
-    png(name)
-    colors = c("brown", "darkgoldenrod", "blue4", "cornflowerblue",
-               "aquamarine4", "chartreuse", "chartreuse3",
-               "coral", "burlywood", "blueviolet")
 
-    select = (Y %in% d)
+#################################################################
+#           MODEL SELECTION USING CROSS-VALIDATION              #
+#################################################################
 
-    plot(X[select, 2], X[select, 1],
-         xlab = "Symmetry", ylab = "Intensity",
-         main = paste("Digit", d),
-         col = c(colors[1 + Y[select]]), pch = 20)
+#
+# Learning Model:       Soft-Margin SVM
+# Parameters to choose: (a) Kernel
+#                       (b) Margin Violation Cost
 
-    dev.off()
+# 
+# Choice of Kernels.
+#                                Gamma   Coef0  Degree
+kernels = matrix(c('linear',        0,      0,     0, 
+                   'polynomial',    1,      1,     2, 
+                   'polynomial',    1,      1,     3, 
+                   'polynomial',    1,      1,     4, 
+                   'radial',        1,      0,     0, 
+                   'radial',        2,      0,     0, 
+                   'radial',        3,      0,     0, 
+                   'radial',        10,     0,     0),
+                 nrow = 4,
+                 dimnames = list(c('K', 'gamma', 'coef0', 'Q')))
+
+#
+# Choice of Margin Violation Costs.
+#
+C = 10^c(-3:1)
+
+# Cross-Validation Error Matrix.
+Ecv = matrix(nrow = length(C), ncol = ncol(kernels),
+             dimnames = list(factor(C)))
+
+# Train all Models and obtain Ecv.
+for (c in C)
+for (i in 1:ncol(kernels)) {
+    
+    print(paste("Training Kernel", i, "Cost", c))
+
+    model = svm(X, Y, type = "C-classification", cost = c,
+                kernel  = kernels['K',     i],
+                gamma   = kernels['gamma', i],
+                coef0   = kernels['coef0', i],
+                degree  = kernels['Q',     i],
+                cross = 10)
+
+    ecv = 1 - (model$tot.accuracy / 100)
+
+    Ecv[as.character(c), i] = ecv
 }
+
+print(Ecv)
+print(min(Ecv))
