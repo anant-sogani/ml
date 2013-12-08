@@ -92,7 +92,7 @@ rbf = function (X, Y, gamma, K = 9) {
         Unew = t(sapply(1:K, function (k) { average(X[Sx == k, ]) }))
 
         # Termination Condition.
-        if (sum(U - Unew) == 0) break
+        if (all(U == Unew)) break
 
         # Prepare for next Iteration.
         U     = Unew
