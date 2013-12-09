@@ -4,7 +4,7 @@
 # Number of Runs of the Experiment.
 # Set to 100000 for the formal answer.
 #
-R = 100
+R = 1000
 
 # Sample Size.
 N = 10
