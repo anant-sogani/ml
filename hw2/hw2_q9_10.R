@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 # Number of Runs of the Experiment.
-R = 10
+R = 1000
 
 # Sample Size.
 N = 1000
@@ -57,7 +57,6 @@ f = function (x) sign(sum(x^2) - 0.6 - 1)
 flip = function (y) -y
 
 noiseY = function (Y, n) {
-    return(Y)
     s = sample(1:n, n / 10)
     Y[s] = flip(Y[s])
     Y
